@@ -18,4 +18,6 @@ class letsencrypt::params {
   ]
 
   $install_dir = '/opt/letsencrypt'
+
+  $port = '80'
 }

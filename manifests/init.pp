@@ -5,6 +5,7 @@
 #
 class letsencrypt (
   $servername  = $::letsencrypt::params::servername,
+  $port        = $::letsencrypt::params::port,
   $packages    = $::letsencrypt::params::packages,
   $install_dir = $::letsencrypt::params::install_dir,
 ) inherits letsencrypt::params
@@ -12,9 +13,9 @@ class letsencrypt (
   include letsencrypt::install
 
   # apache virtualhost for servername
-  apache::vhost { $servername:
+  apache::vhost { "$servername#$port":
     servername    => $servername,
-    port          => '80',
+    port          => $port,
     docroot       => "/var/www/${servername}",
     docroot_owner => 'root',
     docroot_group => 'root',
