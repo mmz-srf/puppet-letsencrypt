@@ -10,21 +10,5 @@ class letsencrypt (
   $install_dir = $::letsencrypt::params::install_dir,
 ) inherits letsencrypt::params
 {
-  include letsencrypt::install
-
-  # apache virtualhost for servername
-  apache::vhost { "$servername#$port":
-    servername    => $servername,
-    port          => $port,
-    docroot       => "/var/www/${servername}",
-    docroot_owner => 'root',
-    docroot_group => 'root',
-    access_log_format => '%{X-Forwarded-For}i %l %V %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %u %T/%D %h',
-    directories   => [{
-      path           => "/var/www/${servername}",
-      allow_override => ['None']
-    }
-    ]
-  }
 
 }

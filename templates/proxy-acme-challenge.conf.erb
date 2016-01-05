@@ -1,0 +1,5 @@
+
+# Proxy requests to our letsencrypt management server
+AllowEncodedSlashes On
+ProxyPreserveHost On
+ProxyPass /.well-known http://<%= @servername %>:<%= @port %>/.well-known
