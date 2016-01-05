@@ -9,8 +9,8 @@ inherits letsencrypt {
     port          => $port,
     default_vhost => true,
     docroot       => "/var/www/letsencrypt",
-    docroot_owner => 'root',
-    docroot_group => 'root',
+    docroot_owner => $docroot_owner,
+    docroot_group => $docroot_group,
     access_log_format => '%{X-Forwarded-For}i %l %V %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %u %T/%D %h',
     directories   => [{
       path           => "/var/www/letsencrypt",

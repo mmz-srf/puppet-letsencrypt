@@ -20,4 +20,7 @@ class letsencrypt::params {
   $install_dir = '/opt/letsencrypt'
 
   $port = '80'
+
+  $docroot_owner = 'jenkins'
+  $docroot_group = 'jenkins'
 }
