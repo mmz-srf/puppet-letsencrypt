@@ -1,0 +1,14 @@
+Alias /.well-known "<%= @docroot %>/.well-known"
+
+<Directory "<%= @docroot %>/.well-known">
+  Options None
+  AllowOverride None
+</Directory>
+
+<Location "/.well-known">
+  Order allow,deny
+  Allow from all
+  Satisfy any
+
+  ProxyPass !
+</Location>

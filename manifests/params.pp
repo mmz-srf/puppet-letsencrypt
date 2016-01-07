@@ -21,6 +21,7 @@ class letsencrypt::params {
 
   $port = '80'
 
+  $docroot = '/var/www/letsencrypt'
   $docroot_owner = 'jenkins'
   $docroot_group = 'jenkins'
 }
