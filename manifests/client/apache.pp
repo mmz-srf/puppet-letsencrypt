@@ -4,7 +4,7 @@ class letsencrypt::client::apache(
   $docroot    = $::letsencrypt::client::docroot,
 ) {
 
-  if defined(Letsencrypt::Server) {
+  if defined(Apache::Vhost['letsencrypt']) {
     apache::custom_config { 'letsencrypt':
       content => template("letsencrypt/map-acme-challenge.conf.erb")
     }
