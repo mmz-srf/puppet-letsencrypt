@@ -7,7 +7,8 @@ class letsencrypt::install {
     command => "virtualenv --no-site-packages ${::letsencrypt::install_dir}",
     cwd     => "/var/tmp",
     creates => $::letsencrypt::install_dir,
-    path    => ["/usr/bin"]
+    path    => ["/usr/bin"],
+    require => Package['python-virtualenv'],
   }
 
   exec { 'funcsigs-for-letsencrypt':
@@ -16,14 +17,14 @@ class letsencrypt::install {
     path    => [ "${::letsencrypt::install_dir}/bin", '/usr/bin'],
     unless  => 'python -c "import funcsigs"',
     require => Exec['virtualenv-for-letsencrypt'],
-    before  => Exec['simp_le'],
+    before  => Exec['setuptools-for-letsencrypt'],
   }
 
   exec { 'setuptools-for-letsencrypt':
     command => 'pip install -U setuptools',
     cwd     => $::letsencrypt::install_dir,
     path    => [ "${::letsencrypt::install_dir}/bin", '/usr/bin'],
-    unless  => 'python -c "import setuptools"',
+    unless  => 'python -c \'import setuptools, sys; float(setuptools.__version__) < 17.1 and sys.exit(1)\';',
     require => Exec['virtualenv-for-letsencrypt'],
     before  => Exec['simp_le'],
   }
