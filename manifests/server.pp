@@ -25,6 +25,6 @@ inherits letsencrypt {
     owner   => 'root',
     group   => 'root',
     mode    => 0755,
-    content => template('package-certificate.bash.erb'),
+    content => template('letsencrypt/package-certificate.bash.erb'),
   }
 }
