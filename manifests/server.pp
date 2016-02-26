@@ -27,4 +27,12 @@ inherits letsencrypt {
     mode    => 0755,
     content => template('letsencrypt/package-certificate.bash.erb'),
   }
+
+  # certificates will be created here
+  file { $::letsencrypt::run_dir:
+    ensure => directory,
+    owner  => $docroot_owner,
+    group  => $docroot_group,
+    mode   => 0700,
+  }
 }

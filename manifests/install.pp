@@ -45,5 +45,4 @@ class letsencrypt::install {
     path    => [ "${::letsencrypt::install_dir}/bin", '/usr/bin'],
     unless  => 'python -c "import simp_le"',
   }
-
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DOCROOT="<%= @docroot %>"
-CONTACT_EMAIL="<%= @contact_email %>"
+DOCROOT="<%= scope.lookupvar("letsencrypt::docroot") %>"
+CONTACT_EMAIL="<%= scope.lookupvar("letsencrypt::contact_email") %>"
 [ -z "$CONTACT_EMAIL" ] || {
   CONTACT_EMAIL="--email $CONTACT_EMAIL"
 }
@@ -22,9 +22,9 @@ while ! [ -z "$1" ]; do
   shift
 done
 
-source <%= @letsencrypt_install_dir %>/bin/activate
-mkdir -p $DOMAIN
-cd "$DOMAIN"
+source <%= scope.lookupvar("letsencrypt::install_dir") %>/bin/activate
+mkdir -p "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
+cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 
 simp_le \
   $CA_SERVER \
