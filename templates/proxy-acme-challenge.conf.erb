@@ -6,7 +6,11 @@ ProxyPass /.well-known http://<%= @servername %>:<%= @port %>/.well-known
 
 <Location /.well-known>
   Options None
+  <% if @apache_version == '2.4' %>
+  Require all granted
+  <% else %>
   Order allow,deny
   Allow from all
   Satisfy Any
+  <% end %>
 </Location>
