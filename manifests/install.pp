@@ -2,6 +2,7 @@ class letsencrypt::install {
 
   ensure_packages($::letsencrypt::packages, {ensure => latest})
 
+  ensure_packages($::letsencrypt::gems, { ensure => latest, provider => gem })
 
   exec { "virtualenv-for-letsencrypt":
     command => "virtualenv --no-site-packages ${::letsencrypt::install_dir}",

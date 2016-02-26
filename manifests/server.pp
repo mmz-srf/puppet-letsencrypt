@@ -1,5 +1,4 @@
-class letsencrypt::server(
-)
+class letsencrypt::server()
 inherits letsencrypt {
 
   include letsencrypt::install
@@ -18,5 +17,14 @@ inherits letsencrypt {
       allow_override => ['None']
     }
     ]
+  }
+
+  # helper script for creating / renewing certificates and package them
+  file { '/usr/local/bin/letsencrypt-package-certificate':
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => 0755,
+    content => template('package-certificate.bash.erb'),
   }
 }

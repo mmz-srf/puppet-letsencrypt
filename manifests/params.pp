@@ -17,6 +17,10 @@ class letsencrypt::params {
     'python-virtualenv',
   ]
 
+  $gems = [
+    'fpm',
+  ]
+
   $install_dir = '/opt/letsencrypt'
 
   $port = '80'
@@ -24,4 +28,6 @@ class letsencrypt::params {
   $docroot = '/var/www/letsencrypt'
   $docroot_owner = 'jenkins'
   $docroot_group = 'jenkins'
+
+  $contact_email = ''
 }

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+DOCROOT="<%= @docroot %>"
+CONTACT_EMAIL="<%= @contact_email %>"
+[ -z "$CONTACT_EMAIL" ] || {
+  CONTACT_EMAIL="--email $CONTACT_EMAIL"
+}
+
+[ -z "$1" ] && [ -z "$DOMAIN" ] && {
+  echo "This script must be run with at least one domainname as parameter"
+  echo -e "\nUsage:\n\t$0 domainname [domainname1]"
+  exit 1
+}
+
+ALLDOMAINS=""
+DOMAIN=""
+while ! [ -z "$1" ]; do
+  [ -z "$DOMAIN" ] && {
+    export DOMAIN="$1"
+  }
+  DOMAINS="$DOMAINS -d $1:$DOCROOT"
+  shift
+done
+
+source <%= @letsencrypt_install_dir %>/bin/activate
+mkdir -p $DOMAIN
+cd "$DOMAIN"
+
+simp_le \
+  $CA_SERVER \
+  $CONTACT_EMAIL \
+  $DOMAINS \
+  -f key.pem \
+  -f cert.pem \
+  -f chain.pem \
+  -f account_key.json
+
+[ -f key.pem ] && [ -f cert.pem ] && [ -f chain.pem ] || {
+  echo "Expected that three files are present in $DOMAIN: key.pem, cert.pem, chain.pem"
+  exit 1
+}
+
+
+# Build a debian package named $PACKAGENAME from the certificate at $SOURCE_ROOT/$FILENAME
+# Installation on the target machine happens at $PREFIX
+
+SERVICE=$(echo -n $DOMAIN | tr -c '[:alnum:]' '-')
+PACKAGENAME="letsencrypt-$SERVICE"
+DEST_DIR="/etc/apache2/ssl/$DOMAIN"
+
+rm -rf build
+mkdir -p "build/${DEST_DIR}"
+cp key.pem cert.pem chain.pem "build/$DEST_DIR/"
+VERSION=$(date -d "$(openssl x509 -startdate -noout -in "build/$DEST_DIR/cert.pem" | cut -f2 -d=)" +"%Y.%m.%d")
+ENDDATE=$(date -d "$(openssl x509 -enddate -noout -in "build/$DEST_DIR/cert.pem" | cut -f2 -d=)" +"%Y.%m.%d")
+FILENAME=${PACKAGENAME}_"${VERSION}~${ENDDATE}"_all.deb
+
+if ! [ -f $FILENAME ];
+then
+  fpm --deb-no-default-config-files -a noarch -s dir -t deb -n "$PACKAGENAME" -v "$VERSION~$ENDDATE" -C build . || {
+    echo "ERROR: Could not create the .deb package"
+    exit 1
+  }
+fi
+
+# show contents of created package:
+echo "${FILENAME} is ready"
+dpkg -c ${FILENAME}
+
