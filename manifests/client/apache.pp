@@ -3,6 +3,12 @@ class letsencrypt::client::apache(
   $port       = $::letsencrypt::client::port,
   $docroot    = $::letsencrypt::client::docroot,
 ) {
+  $apache_version = $::apache::apache_version
+  $letsencrypt_install_dir = $::letsencrypt::install_dir
+
+  if $apache_version == '2.4' and !defined(Apache::Mod['authz_host']) {
+    ::apache::mod { 'authz_host': }
+  }
 
   if defined(Apache::Vhost['letsencrypt']) {
     apache::custom_config { 'letsencrypt':

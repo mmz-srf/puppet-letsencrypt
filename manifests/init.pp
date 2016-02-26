@@ -1,6 +1,6 @@
 # == Class: letsencrypt
 #
-# This class installs all dependencies for running simp_le on Debian 7.
+# This class installs all dependencies for running simp_le on Debian 7 / Debian 8.
 #
 #
 class letsencrypt (
