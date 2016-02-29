@@ -31,4 +31,7 @@ class letsencrypt::params {
   $docroot_group = 'jenkins'
 
   $contact_email = ''
+
+  $packagename_prefix = 'letsencrypt'
+  $package_install_dir= '/etc/apache2/ssl'
 }

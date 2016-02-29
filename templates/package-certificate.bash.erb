@@ -45,8 +45,8 @@ simp_le \
 # Installation on the target machine happens at $PREFIX
 
 SERVICE=$(echo -n $DOMAIN | tr -c '[:alnum:]' '-')
-PACKAGENAME="letsencrypt-$SERVICE"
-DEST_DIR="/etc/apache2/ssl/$DOMAIN"
+PACKAGENAME="<%= scope.lookupvar("letsencrypt::packagename_prefix") %>-$SERVICE"
+DEST_DIR="<%= scope.lookupvar("letsencrypt::package_install_dir") %>/$DOMAIN"
 
 rm -rf build
 mkdir -p "build/${DEST_DIR}"

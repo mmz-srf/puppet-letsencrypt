@@ -13,6 +13,8 @@ class letsencrypt (
   $docroot_owner = $::letsencrypt::params::docroot_owner,
   $docroot_group = $::letsencrypt::params::docroot_group,
   $contact_email = $::letsencrypt::params::contact_email,
+  $packagename_prefix  = $::letsencrypt::params::packagename_prefix,
+  $package_install_dir = $::letsencrypt::params::package_install_dir,
 ) inherits letsencrypt::params
 {
 
