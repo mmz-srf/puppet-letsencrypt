@@ -8,6 +8,7 @@ class letsencrypt (
   $port        = $::letsencrypt::params::port,
   $packages    = $::letsencrypt::params::packages,
   $gems        = $::letsencrypt::params::gems,
+  $run_dir     = $::letsencrypt::params::run_dir,
   $install_dir = $::letsencrypt::params::install_dir,
   $docroot       = $::letsencrypt::params::docroot,
   $docroot_owner = $::letsencrypt::params::docroot_owner,
