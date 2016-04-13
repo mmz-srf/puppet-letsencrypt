@@ -34,4 +34,6 @@ class letsencrypt::params {
 
   $packagename_prefix = 'letsencrypt'
   $package_install_dir= '/etc/apache2/ssl'
+
+  $valid_days = 40
 }

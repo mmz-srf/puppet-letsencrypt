@@ -5,6 +5,10 @@ CONTACT_EMAIL="<%= scope.lookupvar("letsencrypt::contact_email") %>"
 [ -z "$CONTACT_EMAIL" ] || {
   CONTACT_EMAIL="--email $CONTACT_EMAIL"
 }
+VALID_SECONDS="<%= scope.lookupvar("letsencrypt::valid_seconds") %>"
+[ -z "$VALID_SECONDS" ] || {
+  VALID_SECONDS="--valid_min $VALID_SECONDS"
+}
 
 [ -z "$1" ] && [ -z "$DOMAIN" ] && {
   echo "This script must be run with at least one domainname as parameter"
@@ -29,6 +33,7 @@ cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 simp_le \
   $CA_SERVER \
   $CONTACT_EMAIL \
+  $VALID_SECONDS \
   $DOMAINS \
   -f key.pem \
   -f cert.pem \
@@ -66,4 +71,3 @@ fi
 # show contents of created package:
 echo "${FILENAME} is ready"
 dpkg -c ${FILENAME}
-

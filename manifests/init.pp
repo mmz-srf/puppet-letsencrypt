@@ -16,7 +16,8 @@ class letsencrypt (
   $contact_email = $::letsencrypt::params::contact_email,
   $packagename_prefix  = $::letsencrypt::params::packagename_prefix,
   $package_install_dir = $::letsencrypt::params::package_install_dir,
+  $valid_days = $::letsencrypt::params::valid_days,
 ) inherits letsencrypt::params
 {
-
+  $valid_seconds = 24 * 60 * 60 * $valid_days
 }
