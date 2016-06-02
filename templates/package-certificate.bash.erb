@@ -30,7 +30,7 @@ source <%= scope.lookupvar("letsencrypt::install_dir") %>/bin/activate
 mkdir -p "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 
-simp_le \
+CERTIFICATE_STATUS=$(simp_le \
   $CA_SERVER \
   $CONTACT_EMAIL \
   $VALID_SECONDS \
@@ -38,7 +38,19 @@ simp_le \
   -f key.pem \
   -f cert.pem \
   -f chain.pem \
-  -f account_key.json
+  -f account_key.json)
+
+[ "$CERTIFICATE_STATUS" -eq "1" ] && {
+  echo "Certificate renewal is not necessary"
+  exit 0
+}
+
+[ "$CERTIFICATE_STATUS" -eq "2" ] && {
+  echo "Renewing certificate failed.
+  exit 1
+}
+
+
 
 [ -f key.pem ] && [ -f cert.pem ] && [ -f chain.pem ] || {
   echo "Expected that three files are present in $DOMAIN: key.pem, cert.pem, chain.pem"
