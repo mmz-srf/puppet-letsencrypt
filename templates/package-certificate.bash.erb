@@ -40,12 +40,12 @@ CERTIFICATE_STATUS=$(simp_le \
   -f chain.pem \
   -f account_key.json)
 
-[ "$CERTIFICATE_STATUS" -eq "1" ] && {
+[ "$CERTIFICATE_STATUS" = "1" ] && {
   echo "Certificate renewal is not necessary"
   exit 0
 }
 
-[ "$CERTIFICATE_STATUS" -eq "2" ] && {
+[ "$CERTIFICATE_STATUS" = "2" ] && {
   echo "Renewing certificate failed.
   exit 1
 }
