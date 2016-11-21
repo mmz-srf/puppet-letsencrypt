@@ -67,6 +67,7 @@ DEST_DIR="<%= scope.lookupvar("letsencrypt::package_install_dir") %>/$DOMAIN"
 rm -rf build
 mkdir -p "build/${DEST_DIR}"
 cp key.pem cert.pem chain.pem "build/$DEST_DIR/"
+for f in key.pem cert.pem chain.pem; do cat $f; echo; done > "build/$DEST_DIR/combined.pem"
 VERSION=$(date -d "$(openssl x509 -startdate -noout -in "build/$DEST_DIR/cert.pem" | cut -f2 -d=)" +"%Y.%m.%d")
 ENDDATE=$(date -d "$(openssl x509 -enddate -noout -in "build/$DEST_DIR/cert.pem" | cut -f2 -d=)" +"%Y.%m.%d")
 FILENAME=${PACKAGENAME}_"${VERSION}~${ENDDATE}"_all.deb
