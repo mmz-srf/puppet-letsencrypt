@@ -36,4 +36,7 @@ class letsencrypt::params {
   $package_install_dir= '/etc/apache2/ssl'
 
   $valid_days = 40
+
+  # see https://github.com/kuba/simp_le/issues/114#issuecomment-236744611
+  $tos_sha256 = '6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221'
 }
