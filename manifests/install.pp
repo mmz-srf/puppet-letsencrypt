@@ -40,7 +40,7 @@ class letsencrypt::install {
   }
 
   exec { 'simp_le':
-    command => 'pip install -U git+https://github.com/kuba/simp_le.git@master',
+    command => 'pip install -U git+https://github.com/zenhack/simp_le.git@master',
     cwd     => $::letsencrypt::install_dir,
     path    => [ "${::letsencrypt::install_dir}/bin", '/usr/bin'],
     unless  => 'python -c "import simp_le"',
