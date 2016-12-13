@@ -16,13 +16,16 @@ VALID_SECONDS="<%= scope.lookupvar("letsencrypt::valid_seconds") %>"
   exit 1
 }
 
+# keep a copy of all parameters for the package description
+DESCRIPTION="$@"
+
 ALLDOMAINS=""
 DOMAIN=""
 while ! [ -z "$1" ]; do
   [ -z "$DOMAIN" ] && {
     export DOMAIN="$1"
   }
-  DOMAINS="$DOMAINS -d $1:$DOCROOT"
+  ALLDOMAINS="$ALLDOMAINS -d $1:$DOCROOT"
   shift
 done
 
@@ -34,7 +37,7 @@ cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
   $CA_SERVER \
   $CONTACT_EMAIL \
   $VALID_SECONDS \
-  $DOMAINS \
+  $ALLDOMAINS \
   --tos_sha256 <%= scope.lookupvar("letsencrypt::tos_sha256") %> \
   -f key.pem \
   -f cert.pem \
@@ -75,7 +78,7 @@ FILENAME=${PACKAGENAME}_"${VERSION}~${ENDDATE}"_all.deb
 
 if ! [ -f $FILENAME ];
 then
-  fpm --deb-no-default-config-files -a noarch -s dir -t deb -n "$PACKAGENAME" -v "$VERSION~$ENDDATE" -C build . || {
+  fpm --deb-no-default-config-files -a noarch -s dir -t deb -n "$PACKAGENAME" -v "$VERSION~$ENDDATE" --description "${DESCRIPTION}" -C build . || {
     echo "ERROR: Could not create the .deb package"
     exit 1
   }
