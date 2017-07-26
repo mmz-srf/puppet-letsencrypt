@@ -7,7 +7,6 @@ class letsencrypt::params {
   }
 
   $packages = [
-    'ca-certificates',
     'gcc',
     'libssl-dev',
     'libffi-dev',
