@@ -38,7 +38,6 @@ cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
   $CONTACT_EMAIL \
   $VALID_SECONDS \
   $ALLDOMAINS \
-  --tos_sha256 <%= scope.lookupvar("letsencrypt::tos_sha256") %> \
   -f key.pem \
   -f cert.pem \
   -f chain.pem \
