@@ -24,7 +24,7 @@ inherits letsencrypt {
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 0755,
+    mode    => '0755',
     content => template('letsencrypt/package-certificate.bash.erb'),
   }
 
@@ -33,6 +33,6 @@ inherits letsencrypt {
     ensure => directory,
     owner  => $docroot_owner,
     group  => $docroot_group,
-    mode   => 0700,
+    mode   => '0700',
   }
 }
