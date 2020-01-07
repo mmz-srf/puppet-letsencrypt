@@ -14,7 +14,7 @@ class letsencrypt::install {
   exec { 'setuptools-for-letsencrypt':
     command => 'pip install -U setuptools',
     path    => [ "${::letsencrypt::install_dir}/bin", '/usr/bin'],
-    unless  => 'python -c \'import setuptools, sys; float(setuptools.__version__) < 17.1 and sys.exit(1)\';',
+    unless  => 'pip show setuptools -q',
     before  => Exec['simp_le'],
   }
 
