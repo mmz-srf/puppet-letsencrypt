@@ -34,14 +34,14 @@ mkdir -p "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 cd "<%= scope.lookupvar("letsencrypt::run_dir") %>/$DOMAIN"
 
 <%= scope.lookupvar("letsencrypt::install_dir") %>/bin/simp_le \
-  $CA_SERVER \
   $CONTACT_EMAIL \
   $VALID_SECONDS \
   $ALLDOMAINS \
   -f key.pem \
   -f cert.pem \
   -f chain.pem \
-  -f account_key.json
+  -f account_key.json \
+  -f account_reg.json
 CERTIFICATE_STATUS=$?
 
 [ "$CERTIFICATE_STATUS" = "1" ] && {

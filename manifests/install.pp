@@ -17,7 +17,7 @@ class letsencrypt::install {
   }
 
   exec { 'simp_le':
-    command => "bash -c 'source ${::letsencrypt::install_dir}/bin/activate && pip install -U git+https://github.com/zenhack/simp_le.git@0.1.1'",
+    command => "bash -c 'source ${::letsencrypt::install_dir}/bin/activate && pip install -U git+https://github.com/zenhack/simp_le.git@0.18.1'",
     unless  => "test -f ${::letsencrypt::install_dir}/bin/simp_le",
   }
 }
